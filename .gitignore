@@ -1,6 +1,16 @@
 # Compiled class file
 *.class
 
+# Maven build folders
+.classpath
+target/
+
+# Ant build folders
+build/
+dist/
+lib/
+user.build.properties
+
 # Log file
 *.log
 
