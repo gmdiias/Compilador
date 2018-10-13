@@ -11,7 +11,7 @@ public class HelloRunner {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 		HelloParser parser = new HelloParser(tokens);
-		ParseTree tree = parser.r(); // begin parsing at rule 'r'
+		ParseTree tree = parser.if_token(); // begin parsing at rule 'r'
 		System.out.println(tree.toStringTree(parser)); // print LISP-style tree
 	}
 }
