@@ -20,3 +20,4 @@ RightBracket : ']';
 LeftBrace : '{';
 RightBrace : '}';
 PontoVirgula : ';';
+MenorIgual : '<';
