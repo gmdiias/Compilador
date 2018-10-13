@@ -1,5 +1,5 @@
-antlr4.antlrRegisteredTools=4.4@C\:\\Users\\gmdii\\AppData\\Local\\Temp\\antlr-4.4-complete.jar\:4.7.1@C\:\\Users\\gmdii\\Documents\\antlr-4.7.1-complete.jar
-antlr4.antlrToolPath=C\:\\Users\\gmdii\\Documents\\antlr-4.7.1-complete.jar
+antlr4.antlrRegisteredTools=4.4@C\:\\Users\\gmdii\\AppData\\Local\\Temp\\antlr-4.4-complete.jar\:4.7.1@C\:\\Users\\gmdii\\Documents\\antlr-4.7.1-complete.jar\:4.7.1@C\:\\antlr-4.7.1-complete.jar
+antlr4.antlrToolPath=C\:\\antlr-4.7.1-complete.jar
 antlr4.encoding=UTF-8
 antlr4.listener=true
 antlr4.visitor=false
