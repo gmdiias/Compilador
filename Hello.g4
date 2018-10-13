@@ -19,3 +19,4 @@ LeftBracket : '[';
 RightBracket : ']';
 LeftBrace : '{';
 RightBrace : '}';
+PontoVirgula : ';';
