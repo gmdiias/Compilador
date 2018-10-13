@@ -20,4 +20,5 @@ RightBracket : ']';
 LeftBrace : '{';
 RightBrace : '}';
 PontoVirgula : ';';
-MenorIgual : '<';
+MenorIgual : '<=';
+MaiorIgual : '>=';
