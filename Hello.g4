@@ -12,6 +12,25 @@ WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
 NUMBER : [0-9]+;
 
+// PALAVRAS RESERVADAS
+Bool: 'bool';
+Def: 'def';
+Else : 'else';
+False: 'false';
+For : 'for';
+If : 'if';
+Int : 'int';
+Read : 'read';
+Return : 'return';
+Skip : 'skip';
+Stop : 'stop';
+String : 'string';
+True: 'true';
+Var: 'var';
+While : 'while';
+Write: 'write';
+
+//CARACTER ESPECIAIS
 ParenteEsquerdo : '(';
 ParenteDireito : ')';
 ColcheteEsquerdo : '[';
@@ -42,3 +61,5 @@ AtribuicaoDivisao : '/=';
 AtribuicaoRestoDivisao : '%=';
 Interrogacao : '?';
 DoisPontos : ':';
+
+
