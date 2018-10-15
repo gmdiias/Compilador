@@ -1,6 +1,6 @@
-grammar FGM;
+grammar Grace;
 
-fgm: 'programa' e_Atibuicao 'end' EOF;
+grace: 'programa' e_Atibuicao 'end' EOF;
 
 e_Atibuicao : 
       t_TiposPrimitivos 

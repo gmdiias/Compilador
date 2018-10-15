@@ -1,8 +1,6 @@
-import java.io.File;
-import java.util.Scanner;
-
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 public class HelloRunner {
 	public static void main(String[] args) throws Exception {
@@ -19,12 +17,12 @@ public class HelloRunner {
 		    
 	    ANTLRInputStream input = new ANTLRInputStream(System.in);
 		
-	    FGMLexer lexer = new FGMLexer(input);
+	    GraceLexer lexer = new GraceLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-		FGMParser parser = new FGMParser(tokens);
+		GraceParser parser = new GraceParser(tokens);
 		
-		ParseTree tree = parser.fgm();
+		ParseTree tree = parser.grace();
 		System.out.println(tree.toStringTree(parser)); // print LISP-style tree
 	}
 }
