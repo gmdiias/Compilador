@@ -2,9 +2,9 @@
  * Define a grammar called Hello
  */
 grammar Hello;
-r  : 'hello' | LeftParen | ID | RightParen ;         // match keyword hello followed by an identifier
+r  : 'hello' | ID  ;         // match keyword hello followed by an identifier
 
-if_token  : 'if' | LeftParen | ID | RightParen ; 
+if_token  : 'if' | ID  ; 
 
 ID : [a-z]+ ;             // match lower-case identifiers
 
