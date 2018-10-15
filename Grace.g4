@@ -3,10 +3,10 @@ grammar Grace;
 grace: 'programa' e_Atibuicao 'end' EOF;
 
 e_Atibuicao : 
-      t_TiposPrimitivos 
-      Identificador 
-      t_Recebe 
-      (Numero|String)
+      t_TiposPrimitivos
+      Identificador
+      (t_Recebe 
+      (Numero|String))*
       t_PontoVirgula;
       
 e_Comentario : 
