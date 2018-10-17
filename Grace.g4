@@ -1,14 +1,37 @@
 grammar Grace;
 
-grace: 'programa' e_Atibuicao 'end' EOF;
+grace: 'programa' decVar 'end' EOF;  
 
-e_Atibuicao : 
+decVar :
+      'var'
+      listaSpecVar
+      DOISPONTOS
       tiposPrimitivos
-      IDENTIFICADOR
-      (RECEBE 
-      (NUMERO|STRING|tipoBool))?
-      PONTOVIRGULA;
+      PONTOVIRGULA
+      ;
       
+listaSpecVar :
+	  specVar
+	  (',' specVar)*
+	  ;     
+	   
+specVar:
+      specVarSimples|
+      specVarSimplesIni
+      //specVarArranjo|
+      //specVarArranjoIni
+      ;
+
+specVarSimples:
+	  IDENTIFICADOR
+      ;
+
+specVarSimplesIni:      
+      IDENTIFICADOR
+      RECEBE
+      (NUMERO|STRING|tipoBool)
+      ;
+            
 e_Comentario : 
 	COMENTARIO
 	*;
