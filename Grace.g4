@@ -29,15 +29,33 @@ specVarSimples:
 specVarSimplesIni:      
       IDENTIFICADOR
       RECEBE
-      (NUMERO|STRING|tipoBool)
+      (tipoNumero|STRING|tipoBool)
       ;
             
 e_Comentario : 
 	COMENTARIO
 	*;
       
-tiposPrimitivos : TIPOINT | TIPOBOOL | TIPOSTRING;
+tiposPrimitivos : decInt | TIPOBOOL | decString;
 tipoBool : TRUE | FALSE;
+tipoNumero : NUMERO |
+             CHAVEESQUERDO
+			 NUMERO
+			 (',' NUMERO)*
+			 CHAVEDIREITO
+			 ;
+			
+decInt: TIPOINT |
+		TIPOINT
+		COLCHETEESQUERDO
+	    NUMERO
+		COLCHETEDIREITO;
+		
+decString : TIPOSTRING |
+			TIPOSTRING 
+			COLCHETEESQUERDO
+			NUMERO
+			COLCHETEDIREITO;
 
 // TOKENS
 TIPOINT : 'int';
