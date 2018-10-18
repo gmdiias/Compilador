@@ -2,6 +2,7 @@ grammar Grace;
 
 grace: 'programa' decVar 'end' EOF;  
 
+// ---------TODO DECLARACAO DE VARIAVE------------ //
 decVar :
       'var'
       listaSpecVar
@@ -16,34 +17,42 @@ listaSpecVar :
 	  ;     
 	   
 specVar:
-      specVarSimples|
-      specVarSimplesIni
-      //specVarArranjo|
-      //specVarArranjoIni
-      ;
+    specVarSimples|
+    specVarSimplesIni
+    specVarArranjo
+    //specVarArranjoIni
+    ;
 
 specVarSimples:
-	  IDENTIFICADOR
-      ;
+	IDENTIFICADOR
+    ;
 
 specVarSimplesIni:      
-      IDENTIFICADOR
-      RECEBE
-      (tipoNumero|STRING|tipoBool)
-      ;
+    IDENTIFICADOR
+    RECEBE
+    (NUMERO|STRING|BOOLEAN)
+    ;
             
-e_Comentario : 
-	COMENTARIO
-	*;
-      
+specVarArranjo:
+	IDENTIFICADOR
+	COLCHETEESQUERDO
+	NUMERO;
+	      
 tiposPrimitivos : decInt | TIPOBOOL | decString;
-tipoBool : TRUE | FALSE;
-tipoNumero : NUMERO |
-             CHAVEESQUERDO
-			 NUMERO
-			 (',' NUMERO)*
-			 CHAVEDIREITO
-			 ;
+
+BOOLEAN : 
+	TRUE | 
+	FALSE;
+	
+tipoNumero : 
+	NUMERO;
+
+tipoArranjo :
+    CHAVEESQUERDO
+	NUMERO
+	(VIRGULA NUMERO)*
+	CHAVEDIREITO
+	;
 			
 decInt: TIPOINT |
 		TIPOINT
@@ -56,7 +65,17 @@ decString : TIPOSTRING |
 			COLCHETEESQUERDO
 			NUMERO
 			COLCHETEDIREITO;
+			
+decExpressao : 
+	PARENTEESQUERDO?
+	IDENTIFICADOR;
+	//TODO;
 
+// ---------TODO DECLARACAO DE VARIAVE FIM------------ //
+
+e_Comentario : 
+	COMENTARIO
+	*;
 // TOKENS
 TIPOINT : 'int';
 TIPOSTRING : 'string';
