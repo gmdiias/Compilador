@@ -1,9 +1,9 @@
 grammar Grace;
 
-grace: 'programa' decVar 'end' EOF;  
+grace: PROGRAMA decVar END EOF;  
 
 decVar :
-    'var'
+    VAR
     listaSpecVar
     DOISPONTOS
     tiposPrimitivos
@@ -32,22 +32,27 @@ specVarSimplesIni:
     (tipoNumero|STRING|tipoBool)
 	;
 	
+	
+// ----- DECLARACAO DE SUBPROGRAMAS -----
+
 decSub:
 	decProc
 	| decFunc
 	;
       
+// DECLARACAO DE PROCEDIMENTO      
 decProc: 
-	'def'
+	DEF
 	IDENTIFICADOR
 	PARENTEESQUERDO
 	listaParametros
 	PARENTEDIREITO
 	bloco
 	;
-	
+
+// DECLARACAO DE FUNCAO 
 decFunc:
-	'def'
+	DEF
 	IDENTIFICADOR
 	PARENTEESQUERDO
 	listaParametros
@@ -56,12 +61,15 @@ decFunc:
 	tiposPrimitivos
 	bloco
 	;
-	
+
+// DECLARACAO DE BLOCO
 bloco:
 	CHAVEESQUERDO
+	// TODO DEC
 	CHAVEDIREITO
 	;
-	
+
+// DECLARACAO DE LISTA DE PARAMETROS
 listaParametros:
 	specParams
 	(PONTOVIRGULA specParams)*
@@ -69,7 +77,7 @@ listaParametros:
 	
 specParams:
 	param
-	(',' param)*
+	(VIRGULA param)*
 	DOISPONTOS
     tiposPrimitivos
     ;	
@@ -80,7 +88,24 @@ param:
 		COLCHETEESQUERDO
 		COLCHETEDIREITO
 	; 
-            
+	
+// TODO DECLARACAO ANINHADA DE SUBPROGRAMAS
+	
+// ----- DECLARACAO DE COMANDOS -----
+cmdRead:
+	READ
+	// TODO VARIAVEL
+	PONTOVIRGULA
+	;
+
+cmdWrite:
+	WRITE
+	// TODO EXPRESSAO
+	(VIRGULA )* // EXPRESSAO
+	PONTOVIRGULA
+	;
+
+// ----- DECLARACAO DE COMENTARIOS -----
 e_Comentario : 
 	COMENTARIO
 	*;
@@ -90,7 +115,7 @@ tipoBool : TRUE | FALSE;
 tipoNumero : NUMERO |
              CHAVEESQUERDO
 			 NUMERO
-			 (',' NUMERO)*
+			 (VIRGULA NUMERO)*
 			 CHAVEDIREITO
 			 ;
 			
@@ -143,6 +168,13 @@ COMENTARIO : '//';
 TRUE : 'true';
 FALSE : 'false';
 TIPOBOOL : 'bool';
+
+WRITE : 'write';
+READ : 'read';
+DEF : 'def';
+VAR : 'var';
+PROGRAMA : 'programa';
+END : 'end';
 
 IDENTIFICADOR : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMERO : [0-9]*;
