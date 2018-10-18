@@ -3,34 +3,83 @@ grammar Grace;
 grace: 'programa' decVar 'end' EOF;  
 
 decVar :
-      'var'
-      listaSpecVar
-      DOISPONTOS
-      tiposPrimitivos
-      PONTOVIRGULA
-      ;
+    'var'
+    listaSpecVar
+    DOISPONTOS
+    tiposPrimitivos
+    PONTOVIRGULA
+    ;
       
 listaSpecVar :
-	  specVar
-	  (',' specVar)*
-	  ;     
+	specVar
+	(VIRGULA specVar)*
+	;     
 	   
 specVar:
-      specVarSimples|
-      specVarSimplesIni
-      //specVarArranjo|
-      //specVarArranjoIni
-      ;
+    specVarSimples|
+    specVarSimplesIni
+    //specVarArranjo|
+    //specVarArranjoIni
+    ;
 
 specVarSimples:
-	  IDENTIFICADOR
-      ;
+	IDENTIFICADOR
+    ;
 
 specVarSimplesIni:      
-      IDENTIFICADOR
-      RECEBE
-      (tipoNumero|STRING|tipoBool)
-      ;
+    IDENTIFICADOR
+    RECEBE
+    (tipoNumero|STRING|tipoBool)
+	;
+	
+decSub:
+	decProc
+	| decFunc
+	;
+      
+decProc: 
+	'def'
+	IDENTIFICADOR
+	PARENTEESQUERDO
+	listaParametros
+	PARENTEDIREITO
+	bloco
+	;
+	
+decFunc:
+	'def'
+	IDENTIFICADOR
+	PARENTEESQUERDO
+	listaParametros
+	PARENTEDIREITO
+	DOISPONTOS
+	tiposPrimitivos
+	bloco
+	;
+	
+bloco:
+	CHAVEESQUERDO
+	CHAVEDIREITO
+	;
+	
+listaParametros:
+	specParams
+	(PONTOVIRGULA specParams)*
+	;
+	
+specParams:
+	param
+	(',' param)*
+	DOISPONTOS
+    tiposPrimitivos
+    ;	
+	
+param: 
+	IDENTIFICADOR
+	| IDENTIFICADOR
+		COLCHETEESQUERDO
+		COLCHETEDIREITO
+	; 
             
 e_Comentario : 
 	COMENTARIO
