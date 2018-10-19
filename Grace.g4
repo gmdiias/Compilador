@@ -107,7 +107,35 @@ cmdWrite:
 	WRITE
 	// TODO EXPRESSAO
 	(VIRGULA )* // EXPRESSAO
-	PONTOVIRGULA
+	;
+	
+// ----- DECLARACAO DE EXPRESSAO -----
+decExpressao: 
+	operador valor
+	|decExpressao operador decExpressao
+	|decExpressao '?' decExpressao ':' decExpressao
+    |valor
+    ;
+    
+valor: IDENTIFICADOR
+	 | (NUMERO|STRING|BOOLEAN)
+     | PARENTEESQUERDO decExpressao PARENTEDIREITO
+     ;
+
+operador:
+	SOMA
+	|SUBTRACAO
+	|MULTIPLICACAO
+	|DIVISAO
+//	|RESTODIVISAO
+	|COMPARA
+	|DIFERENTE
+	|MAIOR
+	|MAIORIGUAL
+	|MENOR
+	|MENORIGUAL
+	|OULOGICO
+	|ELOGICO 
 	;
 
 // ----- DECLARACAO DE COMENTARIOS -----
@@ -145,12 +173,6 @@ decString :
 	COLCHETEDIREITO
 	;
 			
-decExpressao : 
-	PARENTEESQUERDO?
-	IDENTIFICADOR
-	//TODO
-	;
-
 // ---------TODO DECLARACAO DE VARIAVE FIM------------ //
 	
 // TOKENS
@@ -158,6 +180,7 @@ BOOLEAN :
 	TRUE 
 	| FALSE
 	;
+	
 TIPOINT : 'int';
 TIPOSTRING : 'string';
 PARENTEESQUERDO : '(';
@@ -204,5 +227,6 @@ END : 'end';
 
 IDENTIFICADOR : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMERO : [0-9]*;
-STRING : [a-zA-Z_]?;
+STRING : STRINGPARTICAO '"';
+STRINGPARTICAO : '"' (~["\\\r\n] | '\\' (. | EOF))*;
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
