@@ -1,6 +1,16 @@
 grammar Grace;
 
-grace: PROGRAMA decVar END EOF;  
+@header {
+	import java.util.HashMap;
+}
+
+@members {
+	
+	HashMap memoria = new HashMap();
+	int counte = 0;
+}
+
+grace: decVar+;
 
 // --------- TODO DECLARACAO DE VARIAVEL ------------ //
 decVar :
@@ -9,28 +19,37 @@ decVar :
     DOISPONTOS
     tiposPrimitivos
     PONTOVIRGULA
+    {
+    	System.out.println($listaSpecVar.text);
+    }
     ;
       
 listaSpecVar :
 	specVar
 	(VIRGULA specVar)*
+	//{System.out.println("nois" + $specVar.value);}
 	;     
 	   
 specVar:
     specVarSimples|
     specVarSimplesIni
-    specVarArranjo
+    //{
+    //	System.out.println("nois" + $specVar.value);
+    //}
+    //specVarArranjo
     //specVarArranjoIni
     ;
 
-specVarSimples:
-	IDENTIFICADOR
+specVarSimples //returns [String iden = $IDENTIFICADOR.text]:
+	:IDENTIFICADOR
+	//{System.out.println($IDENTIFICADOR.text);} 
     ;
 
 specVarSimplesIni:      
     IDENTIFICADOR
     RECEBE
-    (NUMERO|STRING|BOOLEAN)
+    decExpressao
+    //{System.out.println($IDENTIFICADOR.text);}
     ;
             
 specVarArranjo:

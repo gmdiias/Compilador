@@ -14,7 +14,7 @@ public class GraceRunner {
 		HelloParser parser = new HelloParser(tokens);
 		ParseTree tree = parser.if_token(); // begin parsing at rule 'r'
 		System.out.println(tree.toStringTree(parser)); // print LISP-style tree*/
-		    
+		 
 	    ANTLRInputStream input = new ANTLRInputStream(System.in);
 		
 	    GraceLexer lexer = new GraceLexer(input);
@@ -22,7 +22,8 @@ public class GraceRunner {
 
 		GraceParser parser = new GraceParser(tokens);
 		
-		ParseTree tree = parser.grace();
-		System.out.println(tree.toStringTree(parser)); // print LISP-style tree
+		parser.decVar();
+		//ParseTree tree = parser.grace();
+		//System.out.println(tree.toStringTree(parser)); // print LISP-style tree
 	}
 }
