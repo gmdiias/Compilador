@@ -1,13 +1,11 @@
 grammar Grace;
 
 @header {
-	import java.util.HashMap;
+
 }
 
 @members {
 	
-	HashMap memoria = new HashMap();
-	int counte = 0;
 }
 
 grace: decVar+;
@@ -19,9 +17,6 @@ decVar :
     DOISPONTOS
     tiposPrimitivos
     PONTOVIRGULA
-    {
-    	System.out.println($listaSpecVar.text);
-    }
     ;
       
 listaSpecVar :
