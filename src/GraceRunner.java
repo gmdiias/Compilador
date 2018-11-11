@@ -15,7 +15,7 @@ public class GraceRunner {
 		
 		ParseTree tree = parser.decVar();
 		
-		GraceBaseListener listener = new GraceBaseListener();
+		Listener listener = new Listener();
 		
 		ParseTreeWalker walker = new ParseTreeWalker();
 		
