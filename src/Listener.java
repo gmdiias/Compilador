@@ -25,7 +25,7 @@ public class Listener extends GraceBaseListener {
 				if(!memoria.containsKey(ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR().getText()))
 				memoria.put(ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR().getText(), var);
 				else
-				System.out.println("Variável " + ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR() + " já foi declarada.");
+				System.out.println("Variï¿½vel " + ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR() + " jï¿½ foi declarada.");
 			}
 			
 			if(ctx.listaSpecVar().specVar(i).specVarSimplesIni() != null) {
@@ -35,7 +35,7 @@ public class Listener extends GraceBaseListener {
 				if(!memoria.containsKey(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText()))
 					memoria.put(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText(), var);
 				else
-					System.out.println("Variável " + ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR() + " já foi declarada.");
+					System.out.println("Variï¿½vel " + ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR() + " jï¿½ foi declarada.");
 			}
 		}
 	}
@@ -60,7 +60,7 @@ public class Listener extends GraceBaseListener {
 			String tipoPadrao = verificaTipo.get(0);
 			for(String tipo : verificaTipo) {
 				if(!tipo.equals(tipoPadrao)) {
-					System.out.println("Conversão inválida de " + tipo + " para " + tipoPadrao);
+					System.out.println("Conversï¿½o invï¿½lida de " + tipo + " para " + tipoPadrao);
 		 		    //return;
 				}
 			}
@@ -68,7 +68,7 @@ public class Listener extends GraceBaseListener {
 		
 		if(!(memoria.get(ctx.getChild(0).getText()).getTipo().equals(verificaTipo.get(0).toString()))) {
 			
-		System.out.println("Atribuição inválida de " + memoria.get(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
+		System.out.println("Atribuiï¿½ï¿½o invï¿½lida de " + memoria.get(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
 		}
 	}
 	
@@ -77,7 +77,7 @@ public class Listener extends GraceBaseListener {
 
 		if(!(ctx.IDENTIFICADOR() == null)) {
 			if(!memoria.containsKey(ctx.IDENTIFICADOR().getText())) 
-				System.out.println("Variável " + ctx.IDENTIFICADOR() + " não declarada.");
+				System.out.println("Variï¿½vel " + ctx.IDENTIFICADOR() + " nï¿½o declarada.");
 		}
 			
 	}

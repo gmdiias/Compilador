@@ -1,3 +1,4 @@
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -17,9 +18,9 @@ public class GraceRunner {
 		ParseTree tree = parser.grace();
 		
 		Listener listener = new Listener();
-		
+
 		ParseTreeWalker walker = new ParseTreeWalker();
-		
+
 		walker.walk(listener, tree);
 		
 		//System.out.println("Arvore: "+ tree.toStringTree(parser));
