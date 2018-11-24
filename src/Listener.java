@@ -1,18 +1,15 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.ArrayList;
-
-import org.antlr.v4.parse.ANTLRParser.sync_return;
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class Listener extends GraceBaseListener {
 	
-	HashMap memoria = new HashMap();
-	List<String> memoria_auxiliar = new ArrayList<>();
+	StringBuilder errors = new StringBuilder();
+	
+	HashMap<String, EstruturaMemoria> memoria = new HashMap<>();
+	List<String> verificaTipo = new ArrayList<>();	
 	
 	List<EstruturaMemoria> estruturaMemoria = new ArrayList<>();
 	
@@ -38,18 +35,43 @@ public class Listener extends GraceBaseListener {
 				var.setVariavel(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText());
 				
 				if(!memoria.containsKey(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText()))
-				memoria.put(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText(), var);
+					memoria.put(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText(), var);
 				else
-				System.out.println("Variável " + ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR() + " já foi declarada.");
+					System.out.println("Variável " + ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR() + " já foi declarada.");
 			}
 		}
-		
+	}
+	
+	@Override
+	public void exitDecVar(GraceParser.DecVarContext ctx) {
+
 	}
 	
 	@Override 
 	public void enterSpecVarSimplesIni(GraceParser.SpecVarSimplesIniContext ctx) { 
-		//System.out.println(ctx.toStringTree());
-		//System.out.println(memoria.containsKey(ctx.getChild(0).getText()));
+		
+		
+	}
+	
+	@Override 
+	public void exitSpecVarSimplesIni(GraceParser.SpecVarSimplesIniContext ctx) {
+		
+		//verificaTipo.forEach(dado-> System.out.println(dado));
+		
+		if(verificaTipo.size() > 1) {
+			String tipoPadrao = verificaTipo.get(0);
+			for(String tipo : verificaTipo) {
+				if(!tipo.equals(tipoPadrao)) {
+					errors.append("Conversão inválida de " + tipo + " para " + tipoPadrao +  System.lineSeparator());
+					System.out.println("Conversão inválida de " + tipo + " para " + tipoPadrao);
+		 		    return;
+				}
+			}
+		}
+		
+		/*if(!(memoria.get(ctx.getChild(0).getText()).getTipo().equals(verificaTipo.get(0).toString()))) {
+			System.out.println("Atribuição inválida de " + memoria.get(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
+		}*/
 	}
 	
 	@Override 
@@ -57,19 +79,21 @@ public class Listener extends GraceBaseListener {
 
 		if(!(ctx.IDENTIFICADOR() == null)) {
 			if(!memoria.containsKey(ctx.IDENTIFICADOR().getText())) 
+				errors.append("Variável " + ctx.IDENTIFICADOR() + " não declarada." + System.lineSeparator());
 				System.out.println("Variável " + ctx.IDENTIFICADOR() + " não declarada.");
-		}		
+		}
 			
 	}
-	
+
 	@Override 
 	public void enterDecExpressao(GraceParser.DecExpressaoContext ctx) {
-		System.out.println(ctx.toStringTree());
-		System.out.println("::"+ ctx.getChild(1));
-		System.out.println(":>>"+ ctx.getChildCount());
 
+		if(!(ctx.valor() == null)){
+			if(memoria.containsKey(ctx.valor().getText()))
+				verificaTipo.add(memoria.get(ctx.valor().getText()).getTipo());
+		}
+		
 	}
-	
 	
 	@Override 
 	public void exitGrace(GraceParser.GraceContext ctx) {
