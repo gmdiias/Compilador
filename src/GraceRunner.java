@@ -1,4 +1,4 @@
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -6,9 +6,11 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 public class GraceRunner {
 	public static void main(String[] args) throws Exception {
 
-		ANTLRInputStream input = new ANTLRInputStream("var a: string;" + "var b, c = b  + a: int; ");
+		StringBuilder input = new StringBuilder();
+		input.append("var a: string;");
+		input.append("var b, c = b  + a: int; ");
 
-		GraceLexer lexer = new GraceLexer(input);
+		GraceLexer lexer = new GraceLexer(CharStreams.fromString(input.toString()));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 		GraceParser parser = new GraceParser(tokens);
@@ -27,16 +29,10 @@ public class GraceRunner {
 
 	public String compilar(String codigo) {
 
-		ANTLRInputStream input = new ANTLRInputStream(codigo);
-		
-		StringBuilder errors = new StringBuilder();
-
-		GraceLexer lexer = new GraceLexer(input);
+		GraceLexer lexer = new GraceLexer(CharStreams.fromString(codigo));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 		GraceParser parser = new GraceParser(tokens);
-
-		errors.append(parser.getErrorListeners().get(0).toString());
 		
 		ParseTree tree = parser.grace();
 
@@ -46,6 +42,6 @@ public class GraceRunner {
 
 		walker.walk(listener, tree);
 
-		return errors.toString();
+		return codigo;
 	}
 }
