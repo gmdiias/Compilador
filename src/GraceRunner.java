@@ -28,11 +28,16 @@ public class GraceRunner {
 	}
 
 	public String compilar(String codigo) {
-
+		ErrorListener.errors.setLength(0);
+		
 		GraceLexer lexer = new GraceLexer(CharStreams.fromString(codigo));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		lexer.removeErrorListeners();
+		lexer.addErrorListener(ErrorListener.INSTANCE);
 
 		GraceParser parser = new GraceParser(tokens);
+		parser.removeErrorListeners();
+		parser.addErrorListener(ErrorListener.INSTANCE);
 		
 		ParseTree tree = parser.grace();
 
@@ -42,6 +47,9 @@ public class GraceRunner {
 
 		walker.walk(listener, tree);
 
-		return codigo;
+		if(ErrorListener.errors.toString().length() == 0) 
+			return "Compilado com sucesso !!!";
+
+			return ErrorListener.errors.toString();
 	}
 }

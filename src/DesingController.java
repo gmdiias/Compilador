@@ -4,8 +4,6 @@ import java.io.Serializable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class DesingController implements Serializable {
@@ -19,18 +17,17 @@ public class DesingController implements Serializable {
 	private Button btnCompilar;
 	
 	@FXML
-	private TextArea textArea;
+	private TextArea userCodeArea;
 	
 	@FXML
-	private TextField textField;
+	private TextArea consoleArea;
 	
 	@FXML
 	private void onCompilarClick() {
 		System.out.println("Iniciando compilacao do sistema ...");
-		System.out.println(textArea.getText());
+		System.out.println(userCodeArea.getText());
 		GraceRunner graceRunner = new GraceRunner();
-		
-		textField.setText(graceRunner.compilar(textArea.getText()));
+		consoleArea.setText(graceRunner.compilar(userCodeArea.getText()));
 	}
 
 	
