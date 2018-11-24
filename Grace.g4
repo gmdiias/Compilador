@@ -84,7 +84,8 @@ decFunc:
 // DECLARACAO DE BLOCO
 bloco:
 	CHAVEESQUERDO
-	// TODO DEC
+	( decSub | 
+	  decVar )
 	CHAVEDIREITO
 	;
 
@@ -107,10 +108,37 @@ param:
 		COLCHETEESQUERDO
 		COLCHETEDIREITO
 	; 
-	
+
+
 // TODO DECLARACAO ANINHADA DE SUBPROGRAMAS
-	
+
 // ----- DECLARACAO DE COMANDOS -----
+
+comando:
+	cmdSimples |
+	bloco;
+	
+cmdSimples:
+	cmdAtrib |
+	cmdRead |
+	cmdWrite
+	;
+
+cmdAtrib:
+	atrib
+	PONTOVIRGULA
+	;
+	
+atrib:
+	IDENTIFICADOR
+	( 	ATRIBUICAOSOMA |
+		ATRIBUICAOSUBTRACAO |
+		ATRIBUICAOMULTIPLICACAO |
+		ATRIBUICAODIVISAO |
+		ATRIBUICAORESTODIVISAO )
+	decExpressao
+	;
+
 cmdRead:
 	READ
 	// TODO VARIAVEL
@@ -122,6 +150,61 @@ cmdWrite:
 	// TODO EXPRESSAO
 	(VIRGULA )* // EXPRESSAO
 	;
+	
+// ----- CONDICIONAL IF -----
+cmdIf: 
+	IDIF
+	PARENTEESQUERDO
+	decExpressao
+	PARENTEDIREITO
+	comando
+	cmdElse
+	;
+	
+cmdElse: 
+	(IDELSE comando) | EOF
+;
+
+// ---- CLAÇO WHILE -----
+cmdWhile: 
+	IDWHILE
+	PARENTEESQUERDO
+	decExpressao
+	PARENTEDIREITO
+	comando
+;
+
+// ----- LAÇO FOR -----
+cmdFor: 
+	IDFOR
+	PARENTEESQUERDO
+	atribIni
+	PONTOVIRGULA
+	decExpressao
+	PONTOVIRGULA
+	atribPasso
+	PARENTEDIREITO
+	comando
+;
+
+atribIni: 
+	specVarSimplesIni
+;
+
+atribPasso:
+	specVarSimples
+	operador
+	valor
+	;
+	
+// --- Interrupção do Laço
+cmdStop:
+	IDSTOP
+	PONTOVIRGULA
+;
+
+// -- Salto de Interação
+//TODO
 	
 // ----- DECLARACAO DE EXPRESSAO -----
 decExpressao: 
@@ -231,6 +314,12 @@ COMENTARIO : '//';
 TRUE : 'true';
 FALSE : 'false';
 TIPOBOOL : 'bool';
+IDSTOP: 'stop';
+
+IDIF: 'if';
+IDELSE: 'else';
+IDWHILE: 'while';
+IDFOR: 'for';
 
 WRITE : 'write';
 READ : 'read';
@@ -241,6 +330,7 @@ END : 'end';
 
 IDENTIFICADOR : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMERO : [0-9]*;
+
 STRING : STRINGPARTICAO '"';
 STRINGPARTICAO : '"' (~["\\\r\n] | '\\' (. | EOF))*;
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
