@@ -34,71 +34,53 @@ public class Listener extends GraceBaseListener {
 			}
 			
 			if(ctx.listaSpecVar().specVar(i).specVarSimplesIni() != null) {
-				
+	
 				var.setVariavel(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText());
 				
 				if(!memoria.containsKey(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText()))
 				memoria.put(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText(), var);
+				else
+				System.out.println("Variável " + ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR() + " já foi declarada.");
 			}
 		}
 		
 	}
 	
 	@Override 
-	public void exitDecVar(GraceParser.DecVarContext ctx) {
-		/*System.out.println(ctx.getText());
-		System.out.println(ctx.getRuleContext());
-		System.out.println(ctx.getRuleIndex());
-		System.out.println(ctx.toStringTree());
-		System.out.println(ctx.getChild(1).getChild(2).getChildCount());
-		*/
-		//memoria_auxiliar.forEach(dado -> System.out.println(dado.toString()));
-		
-		/*
-		 * descomentar se pá
-		 * for(int i = 0; i < memoria_auxiliar.size(); i++) {
-			
-			EstruturaMemoria var = new EstruturaMemoria();
-			var.setVariavel(memoria_auxiliar.get(i));
-			var.setTipo(ctx.getChild(ctx.getChildCount()-2).getText());
-			
-			if(!memoria.containsKey(memoria_auxiliar.get(i))) memoria.put(memoria_auxiliar.get(i), var);
-		}
-		
-		memoria_auxiliar.clear();*/
-		
+	public void enterSpecVarSimplesIni(GraceParser.SpecVarSimplesIniContext ctx) { 
+		//System.out.println(ctx.toStringTree());
+		//System.out.println(memoria.containsKey(ctx.getChild(0).getText()));
 	}
 	
-	@Override public void exitSpecVarSimples(GraceParser.SpecVarSimplesContext ctx) { 
-		
-		/* descomentar se pá if(!memoria_auxiliar.contains(ctx.getText())) memoria_auxiliar.add(ctx.getText());*/
-		
-	}
-	
-	@Override public void exitSpecVarSimplesIni(GraceParser.SpecVarSimplesIniContext ctx) {
-		
-		/*if(!memoria_auxiliar.contains(ctx.getChild(0).getText())) memoria_auxiliar.add(ctx.getChild(0).getText())*/;
-	}
-	
-	@Override public void exitValor(GraceParser.ValorContext ctx) { 
+	@Override 
+	public void exitValor(GraceParser.ValorContext ctx) { 
 
 		if(!(ctx.IDENTIFICADOR() == null)) {
 			if(!memoria.containsKey(ctx.IDENTIFICADOR().getText())) 
 				System.out.println("Variável " + ctx.IDENTIFICADOR() + " não declarada.");
-		}
-			
+		}		
 			
 	}
 	
-	@Override public void exitGrace(GraceParser.GraceContext ctx) {
+	@Override 
+	public void enterDecExpressao(GraceParser.DecExpressaoContext ctx) {
+		System.out.println(ctx.toStringTree());
+		System.out.println("::"+ ctx.getChild(1));
+		System.out.println(":>>"+ ctx.getChildCount());
+
+	}
+	
+	
+	@Override 
+	public void exitGrace(GraceParser.GraceContext ctx) {
 		
 		Set<String> chaves = memoria.keySet();
 		
 		for (Iterator<String> iterator = chaves.iterator(); iterator.hasNext();){
 			
 			String chave = iterator.next();
-			if(chave != null)
-				System.out.println(chave + " ----> "+ memoria.get(chave).toString());
+			//if(chave != null)
+			//	System.out.println(chave + " ----> "+ memoria.get(chave).toString());
 		}
 	}
 }

@@ -6,10 +6,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 public class GraceRunner {
 	public static void main(String[] args) throws Exception {
 		 
-	    ANTLRInputStream input = new ANTLRInputStream("var a,c, b = 3+a, v = (6-b+f): int; "
-	    											+ "var j:string;"
-	    											+ "var n:bool;"
-	    											+ "var f: int;");
+	    ANTLRInputStream input = new ANTLRInputStream("var a: string;"
+	    											+ "var b, c = b  + a: int; ");
 	    
 	    GraceLexer lexer = new GraceLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
