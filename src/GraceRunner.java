@@ -1,29 +1,59 @@
-
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class GraceRunner {
 	public static void main(String[] args) throws Exception {
-		 
-	    ANTLRInputStream input = new ANTLRInputStream("var a: bool;"
-	    											+ "var b, c = y  + a: int; ");
-	    
-	    GraceLexer lexer = new GraceLexer(input);
+
+		StringBuilder input = new StringBuilder();
+		input.append("var a: string;");
+		input.append("var b, c = b  + a: int; ");
+
+		GraceLexer lexer = new GraceLexer(CharStreams.fromString(input.toString()));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 		GraceParser parser = new GraceParser(tokens);
-		
+
 		ParseTree tree = parser.grace();
-		
+
 		Listener listener = new Listener();
 
 		ParseTreeWalker walker = new ParseTreeWalker();
 
 		walker.walk(listener, tree);
+
+		// System.out.println("Arvore: "+ tree.toStringTree(parser));
+
+	}
+
+	public String compilar(String codigo) {
+		ErrorListener.errors.setLength(0);
+		StringBuilder erro = new StringBuilder();
 		
-		//System.out.println("Arvore: "+ tree.toStringTree(parser));
+		GraceLexer lexer = new GraceLexer(CharStreams.fromString(codigo));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		lexer.removeErrorListeners();
+		lexer.addErrorListener(ErrorListener.INSTANCE);
+
+		GraceParser parser = new GraceParser(tokens);
+		parser.removeErrorListeners();
+		parser.addErrorListener(ErrorListener.INSTANCE);
 		
+		ParseTree tree = parser.grace();
+
+		Listener listener = new Listener();
+
+
+		ParseTreeWalker walker = new ParseTreeWalker();
+
+		walker.walk(listener, tree);
+
+		erro.append(ErrorListener.errors);
+		erro.append(listener.errors);
+		if(erro.length() == 0) 
+			return "Compilado com sucesso !!!";
+
+		return erro.toString();
 	}
 }

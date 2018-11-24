@@ -6,6 +6,8 @@ import java.util.Set;
 
 public class Listener extends GraceBaseListener {
 	
+	StringBuilder errors = new StringBuilder();
+	
 	HashMap<String, EstruturaMemoria> memoria = new HashMap<>();
 	List<String> verificaTipo = new ArrayList<>();	
 	
@@ -60,16 +62,16 @@ public class Listener extends GraceBaseListener {
 			String tipoPadrao = verificaTipo.get(0);
 			for(String tipo : verificaTipo) {
 				if(!tipo.equals(tipoPadrao)) {
+					errors.append("Convers�o inv�lida de " + tipo + " para " + tipoPadrao +  System.lineSeparator());
 					System.out.println("Convers�o inv�lida de " + tipo + " para " + tipoPadrao);
-		 		    //return;
+		 		    return;
 				}
 			}
 		}
 		
-		if(!(memoria.get(ctx.getChild(0).getText()).getTipo().equals(verificaTipo.get(0).toString()))) {
-			
-		System.out.println("Atribui��o inv�lida de " + memoria.get(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
-		}
+		/*if(!(memoria.get(ctx.getChild(0).getText()).getTipo().equals(verificaTipo.get(0).toString()))) {
+			System.out.println("Atribui��o inv�lida de " + memoria.get(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
+		}*/
 	}
 	
 	@Override 
@@ -77,6 +79,7 @@ public class Listener extends GraceBaseListener {
 
 		if(!(ctx.IDENTIFICADOR() == null)) {
 			if(!memoria.containsKey(ctx.IDENTIFICADOR().getText())) 
+				errors.append("Vari�vel " + ctx.IDENTIFICADOR() + " n�o declarada." + System.lineSeparator());
 				System.out.println("Vari�vel " + ctx.IDENTIFICADOR() + " n�o declarada.");
 		}
 			
