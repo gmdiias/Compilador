@@ -8,7 +8,8 @@ grammar Grace;
 	
 }
 
-grace: decVar+;
+grace: decVar+
+	   | cmdIf+;
 
 // --------- TODO DECLARACAO DE VARIAVEL ------------ //
 decVar :
@@ -22,29 +23,21 @@ decVar :
 listaSpecVar :
 	specVar
 	(VIRGULA specVar)*
-	//{System.out.println("nois" + $specVar.value);}
 	;     
 	   
 specVar:
     specVarSimples|
     specVarSimplesIni
-    //{
-    //	System.out.println("nois" + $specVar.value);
-    //}
-    //specVarArranjo
-    //specVarArranjoIni
     ;
 
 specVarSimples //returns [String iden = $IDENTIFICADOR.text]:
 	:IDENTIFICADOR
-	//{System.out.println($IDENTIFICADOR.text);} 
     ;
 
 specVarSimplesIni:      
     IDENTIFICADOR
     RECEBE
     decExpressao
-    //{System.out.println($IDENTIFICADOR.text);}
     ;
             
 specVarArranjo:
@@ -155,7 +148,7 @@ cmdWrite:
 cmdIf: 
 	IDIF
 	PARENTEESQUERDO
-	decExpressao
+	(decExpressaoRelacional|decExpressaoLogica|decExpressaoIgualdade)
 	PARENTEDIREITO
 	comando
 	cmdElse
@@ -208,12 +201,11 @@ cmdStop:
 	
 // ----- DECLARACAO DE EXPRESSAO -----
 decExpressao: 
-	operador valor
-	|decExpressao operador decExpressao
-	|decExpressao '?' decExpressao ':' decExpressao
+	decExpressao operador decExpressao
+//	|decExpressao '?' decExpressao ':' decExpressao
     |valor
     ;
-    
+	  
 valor: IDENTIFICADOR
 	 | (NUMERO|STRING|BOOLEAN)
      | PARENTEESQUERDO decExpressao PARENTEDIREITO
@@ -224,17 +216,51 @@ operador:
 	|SUBTRACAO
 	|MULTIPLICACAO
 	|DIVISAO
-//	|RESTODIVISAO
-	|COMPARA
-	|DIFERENTE
-	|MAIOR
-	|MAIORIGUAL
-	|MENOR
-	|MENORIGUAL
-	|OULOGICO
-	|ELOGICO 
 	;
 
+// ----- DECLARACAO DE EXPRESSAO RELACIONAL-----
+decExpressaoRelacional:
+	 decExpressaoRelacional operadorRelacional decExpressaoRelacional
+	 |valorRelacional;
+
+valorRelacional:
+	  IDENTIFICADOR
+	  |NUMERO
+	  |PARENTEESQUERDO decExpressao PARENTEDIREITO;
+	  
+operadorRelacional:
+	MAIOR
+	|MAIORIGUAL
+	|MENOR
+	|MENORIGUAL;
+
+// ----- DECLARACAO DE EXPRESSAO IGUALDADE-----
+decExpressaoIgualdade:
+	 decExpressaoIgualdade operadorIgualdade decExpressaoIgualdade
+	 |valorIgualdade;
+
+valorIgualdade:
+	  IDENTIFICADOR
+	  |(NUMERO|STRING|BOOLEAN)
+	  |PARENTEESQUERDO decExpressaoIgualdade PARENTEDIREITO;
+	  
+operadorIgualdade:
+	COMPARA
+	|DIFERENTE;
+
+// ----- DECLARACAO DE EXPRESSAO LOGICA-----
+decExpressaoLogica:
+	 decExpressaoLogica operadorLogica decExpressaoLogica
+	 |valorLogica;
+
+valorLogica:
+	  IDENTIFICADOR
+	  |BOOLEAN
+	  |PARENTEESQUERDO decExpressaoLogica PARENTEDIREITO;
+	  
+operadorLogica:
+	OULOGICO
+	|ELOGICO ;	
 // ----- DECLARACAO DE COMENTARIOS -----
 e_Comentario : 
 	COMENTARIO

@@ -51,18 +51,7 @@ public class Listener extends GraceBaseListener {
 			}
 		}
 	}
-	
-	@Override
-	public void exitDecVar(GraceParser.DecVarContext ctx) {
-
-	}
-	
-	@Override 
-	public void enterSpecVarSimplesIni(GraceParser.SpecVarSimplesIniContext ctx) { 
 		
-		
-	}
-	
 	@Override 
 	public void exitSpecVarSimplesIni(GraceParser.SpecVarSimplesIniContext ctx) {
 		
@@ -87,6 +76,8 @@ public class Listener extends GraceBaseListener {
 				newErro.setTipo("Erro");
 				newErro.setMensagem("Atribuição inválida de " + memoria.get(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
 				HanglingErrors.addErro(newErro);
+				
+				verificaTipo.clear();
 				System.out.println("Atribuição inválida de " + memoria.get(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
 			}
 		}
@@ -94,6 +85,21 @@ public class Listener extends GraceBaseListener {
 	
 	@Override 
 	public void exitValor(GraceParser.ValorContext ctx) { 
+
+		if(!(ctx.IDENTIFICADOR() == null)) {
+			if(!memoria.containsKey(ctx.IDENTIFICADOR().getText())) {
+				Errors newErro = new Errors();
+				newErro.setTipo("Erro");
+				newErro.setMensagem("Variável '" + ctx.IDENTIFICADOR() + "' não declarada.");
+				HanglingErrors.addErro(newErro);
+				System.out.println("Variável '" + ctx.IDENTIFICADOR() + "' não declarada.");
+			}
+		}
+			
+	}
+
+	@Override 
+	public void exitValorRelacional(GraceParser.ValorRelacionalContext ctx) { 
 
 		if(!(ctx.IDENTIFICADOR() == null)) {
 			if(!memoria.containsKey(ctx.IDENTIFICADOR().getText())) {
@@ -132,6 +138,21 @@ public class Listener extends GraceBaseListener {
 		
 	}
 	
+	@Override 
+	public void enterDecExpressaoRelacional(GraceParser.DecExpressaoRelacionalContext ctx) { 
+		
+		if(!(ctx.valorRelacional() == null)){
+			
+			if(ctx.valorRelacional().IDENTIFICADOR() != null){
+				if(memoria.containsKey(ctx.valorRelacional().getText())) {
+					Errors newErro = new Errors();
+					newErro.setTipo("Erro");
+					newErro.setMensagem("Variável '" + ctx.valorRelacional().IDENTIFICADOR() + "' não declarada.");
+				}	
+			}
+		}
+	}
+
 	@Override 
 	public void exitGrace(GraceParser.GraceContext ctx) {
 		
