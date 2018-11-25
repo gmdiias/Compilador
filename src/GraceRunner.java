@@ -28,8 +28,6 @@ public class GraceRunner {
 	}
 
 	public String compilar(String codigo) {
-		ErrorListener.errors.setLength(0);
-		StringBuilder erro = new StringBuilder();
 		
 		GraceLexer lexer = new GraceLexer(CharStreams.fromString(codigo));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -49,11 +47,9 @@ public class GraceRunner {
 
 		walker.walk(listener, tree);
 
-		erro.append(ErrorListener.errors);
-		erro.append(listener.errors);
-		if(erro.length() == 0) 
+		if(HanglingErrors.mostrarErro().length() == 0) 
 			return "Compilado com sucesso !!!";
 
-		return erro.toString();
+		return HanglingErrors.mostrarErro();
 	}
 }
