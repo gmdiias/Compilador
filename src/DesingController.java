@@ -1,6 +1,9 @@
 
 import java.io.Serializable;
 
+import javax.swing.text.Position;
+
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -28,7 +31,11 @@ public class DesingController implements Serializable {
 		System.out.println(userCodeArea.getText());
 		GraceRunner graceRunner = new GraceRunner();
 		consoleArea.setText(graceRunner.compilar(userCodeArea.getText()));
+		
+		
+		//int linha = userCodeArea.getText().split("\n").length;
+		//int coluna = userCodeArea.getCaretPosition();
+		//System.out.println("Linha: "+ linha + " Coluna: "+coluna);
 	}
-
 	
 }
