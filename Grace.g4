@@ -148,7 +148,7 @@ cmdWrite:
 cmdIf: 
 	IDIF
 	PARENTEESQUERDO
-	(decExpressaoRelacional|decExpressaoLogica|decExpressaoIgualdade)
+	(decExpressaoRelacional)
 	PARENTEDIREITO
 	comando
 	cmdElse
@@ -232,7 +232,9 @@ operadorRelacional:
 	MAIOR
 	|MAIORIGUAL
 	|MENOR
-	|MENORIGUAL;
+	|MENORIGUAL
+	|COMPARA
+	|DIFERENTE;
 
 // ----- DECLARACAO DE EXPRESSAO IGUALDADE-----
 decExpressaoIgualdade:
