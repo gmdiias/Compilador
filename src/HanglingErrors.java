@@ -24,8 +24,9 @@ public class HanglingErrors {
 		StringBuilder errosString = new StringBuilder();
 		
 		HanglingErrors.getListErros().forEach(dado -> {
+			errosString.append("<");
 			errosString.append(dado.getTipo());
-			errosString.append("- ");
+			errosString.append("> ");
 			errosString.append(dado.getLinha());
 			errosString.append(":");
 			errosString.append(dado.getColuna());
