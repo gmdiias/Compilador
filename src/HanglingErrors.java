@@ -12,6 +12,10 @@ public class HanglingErrors {
 		HanglingErrors.listErros = listErros;
 	}
 	
+	public static void resetListErros() {
+		listErros.clear();
+	}
+	
 	public static void addErro(Errors erro) {
 		HanglingErrors.listErros.add(erro);
 	}

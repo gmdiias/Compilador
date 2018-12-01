@@ -29,6 +29,8 @@ public class GraceRunner {
 
 	public String compilar(String codigo) {
 		
+		HanglingErrors.resetListErros();
+		
 		GraceLexer lexer = new GraceLexer(CharStreams.fromString(codigo));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		lexer.removeErrorListeners();
