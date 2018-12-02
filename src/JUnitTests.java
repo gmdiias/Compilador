@@ -1,4 +1,6 @@
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -49,6 +51,32 @@ class JUnitTests {
 		expected.append(System.lineSeparator());
 		
 		assertEquals(expected.toString(), result);
+	}
+	
+	@Test
+	void ListMemoriaTest() {
+		ListMemoria memoria = new ListMemoria();
+		
+		EstruturaMemoria teste = new EstruturaMemoria();
+		teste.setTipo("string");
+		teste.setValor("teste");
+		teste.setVariavel("a");
+		memoria.addEstrutura("a", teste);
+		memoria.addContexto();
+		memoria.addEstrutura("b", teste);
+		memoria.addContexto();
+		memoria.addEstrutura("c", teste);
+		
+		assertTrue(memoria.contains("a"));
+		assertTrue(memoria.contains("b"));
+		assertTrue(memoria.contains("c"));
+		
+		memoria.removeContexto();
+		memoria.removeContexto();
+		
+		assertTrue(memoria.contains("a"));
+		assertFalse(memoria.contains("b"));
+		assertFalse(memoria.contains("c"));
 	}
 
 }

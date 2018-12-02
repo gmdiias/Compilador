@@ -1,15 +1,10 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class Listener extends GraceBaseListener {
 	
-	HashMap<String, EstruturaMemoria> memoria = new HashMap<>();
+	ListMemoria memoria = new ListMemoria();
 	List<String> verificaTipo = new ArrayList<>();	
-	
-	List<EstruturaMemoria> estruturaMemoria = new ArrayList<>();
 	
 	@Override 
 	public void enterDecVar(GraceParser.DecVarContext ctx) {
@@ -22,8 +17,8 @@ public class Listener extends GraceBaseListener {
 				
 				var.setVariavel(ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR().getText());
 				
-				if(!memoria.containsKey(ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR().getText()))
-					memoria.put(ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR().getText(), var);
+				if(!memoria.contains(ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR().getText()))
+					memoria.addEstrutura(ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR().getText(), var);
 				else {
 					Errors newErro = new Errors();
 					newErro.setTipo("Erro");
@@ -40,8 +35,8 @@ public class Listener extends GraceBaseListener {
 	
 				var.setVariavel(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText());
 				
-				if(!memoria.containsKey(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText()))
-					memoria.put(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText(), var);
+				if(!memoria.contains(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText()))
+					memoria.addEstrutura(ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR().getText(), var);
 				else {
 					Errors newErro = new Errors();
 					newErro.setTipo("Erro");
@@ -77,16 +72,16 @@ public class Listener extends GraceBaseListener {
 		}
 		
 		if(!verificaTipo.isEmpty()) {
-			if(!(memoria.get(ctx.getChild(0).getText()).getTipo().equals(verificaTipo.get(0).toString()))) {
+			if(!(memoria.getEstrutura(ctx.getChild(0).getText()).getTipo().equals(verificaTipo.get(0).toString()))) {
 				Errors newErro = new Errors();
 				newErro.setTipo("Erro");
 				newErro.setLinha(ctx.getStop().getLine());
 				newErro.setColuna(ctx.getStop().getCharPositionInLine());
-				newErro.setMensagem("Atribuição inválida de " + memoria.get(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
+				newErro.setMensagem("Atribuição inválida de " + memoria.getEstrutura(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
 				HanglingErrors.addErro(newErro);
 				
 				verificaTipo.clear();
-				System.out.println("Atribuição inválida de " + memoria.get(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
+				System.out.println("Atribuição inválida de " + memoria.getEstrutura(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
 			}
 		}
 	}
@@ -94,7 +89,7 @@ public class Listener extends GraceBaseListener {
 	@Override 
 	public void exitValor(GraceParser.ValorContext ctx) { 
 		if(!(ctx.IDENTIFICADOR() == null)) {
-			if(!memoria.containsKey(ctx.IDENTIFICADOR().getText())) {
+			if(!memoria.contains(ctx.IDENTIFICADOR().getText())) {
 				Errors newErro = new Errors();
 				newErro.setTipo("Erro");
 				newErro.setLinha(ctx.getStop().getLine());
@@ -111,7 +106,7 @@ public class Listener extends GraceBaseListener {
 	public void exitValorRelacional(GraceParser.ValorRelacionalContext ctx) { 
 
 		if(!(ctx.IDENTIFICADOR() == null)) {
-			if(!memoria.containsKey(ctx.IDENTIFICADOR().getText())) {
+			if(!memoria.contains(ctx.IDENTIFICADOR().getText())) {
 				Errors newErro = new Errors();
 				newErro.setTipo("Erro");
 				newErro.setLinha(ctx.getStop().getLine());
@@ -130,8 +125,8 @@ public class Listener extends GraceBaseListener {
 		if(!(ctx.valor() == null)){
 			
 			if(ctx.valor().IDENTIFICADOR() != null){
-				if(memoria.containsKey(ctx.valor().getText())) 
-					verificaTipo.add(memoria.get(ctx.valor().getText()).getTipo());	
+				if(memoria.contains(ctx.valor().getText())) 
+					verificaTipo.add(memoria.getEstrutura(ctx.valor().getText()).getTipo());	
 			}
 			
 			else if(ctx.valor().NUMERO() != null){
@@ -155,7 +150,7 @@ public class Listener extends GraceBaseListener {
 		if(!(ctx.valorRelacional() == null)){
 			
 			if(ctx.valorRelacional().IDENTIFICADOR() != null){
-				if(memoria.containsKey(ctx.valorRelacional().getText())) {
+				if(memoria.contains(ctx.valorRelacional().getText())) {
 					Errors newErro = new Errors();
 					newErro.setTipo("Erro");
 					newErro.setLinha(ctx.getStop().getLine());
@@ -169,14 +164,22 @@ public class Listener extends GraceBaseListener {
 
 	@Override 
 	public void exitGrace(GraceParser.GraceContext ctx) {
-		
+		/*
 		Set<String> chaves = memoria.keySet();
 		
 		for (Iterator<String> iterator = chaves.iterator(); iterator.hasNext();){
 			
 			String chave = iterator.next();
-			//if(chave != null)
-			//	System.out.println(chave + " ----> "+ memoria.get(chave).toString());
-		}
+			if(chave != null)
+			System.out.println(chave + " ----> "+ memoria.getEstrutura(chave).toString());
+		}*/
+	}
+	
+	@Override public void enterBloco(GraceParser.BlocoContext ctx) { 
+		memoria.addContexto();
+	}
+
+	@Override public void exitBloco(GraceParser.BlocoContext ctx) { 
+		memoria.removeContexto();
 	}
 }

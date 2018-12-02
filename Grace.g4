@@ -8,7 +8,7 @@ grammar Grace;
 	
 }
 
-grace: decVar+ cmdIf+ grace*;
+grace: decVar+ cmdIf+ decVar?;
 
 // --------- TODO DECLARACAO DE VARIAVEL ------------ //
 decVar :
@@ -77,7 +77,7 @@ decFunc:
 bloco:
 	CHAVEESQUERDO
 	( decSub | 
-	  decVar )
+	  decVar )+
 	CHAVEDIREITO
 	;
 
