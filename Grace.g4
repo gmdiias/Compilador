@@ -8,8 +8,7 @@ grammar Grace;
 	
 }
 
-grace: decVar+
-	   | cmdIf+;
+grace: decVar+ cmdIf+ grace*;
 
 // --------- TODO DECLARACAO DE VARIAVEL ------------ //
 decVar :
@@ -155,7 +154,7 @@ cmdIf:
 	;
 	
 cmdElse: 
-	(IDELSE comando) | EOF
+	(IDELSE comando)?
 ;
 
 // ---- CLAÇO WHILE -----

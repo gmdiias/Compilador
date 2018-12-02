@@ -47,7 +47,7 @@ public class Listener extends GraceBaseListener {
 					newErro.setTipo("Erro");
 					newErro.setLinha(ctx.getStop().getLine());
 					newErro.setColuna(ctx.getStop().getCharPositionInLine());
-					newErro.setMensagem("Variável '" + ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR() +
+					newErro.setMensagem("Variável '" + ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR() +
 							" já foi declarada.");
 					HanglingErrors.addErro(newErro);
 					System.out.println("Variável '" + ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR() + " já foi declarada.");
