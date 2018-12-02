@@ -8,8 +8,7 @@ grammar Grace;
 	
 }
 
-grace: decVar+
-	   | cmdIf+;
+grace: decVar+ cmdIf+ grace*;
 
 // --------- TODO DECLARACAO DE VARIAVEL ------------ //
 decVar :
@@ -148,14 +147,14 @@ cmdWrite:
 cmdIf: 
 	IDIF
 	PARENTEESQUERDO
-	(decExpressaoRelacional|decExpressaoLogica|decExpressaoIgualdade)
+	(decExpressaoRelacional)
 	PARENTEDIREITO
 	comando
 	cmdElse
 	;
 	
 cmdElse: 
-	(IDELSE comando) | EOF
+	(IDELSE comando)?
 ;
 
 // ---- CLAÇO WHILE -----
@@ -232,7 +231,9 @@ operadorRelacional:
 	MAIOR
 	|MAIORIGUAL
 	|MENOR
-	|MENORIGUAL;
+	|MENORIGUAL
+	|COMPARA
+	|DIFERENTE;
 
 // ----- DECLARACAO DE EXPRESSAO IGUALDADE-----
 decExpressaoIgualdade:

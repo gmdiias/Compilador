@@ -27,6 +27,8 @@ public class Listener extends GraceBaseListener {
 				else {
 					Errors newErro = new Errors();
 					newErro.setTipo("Erro");
+					newErro.setLinha(ctx.getStop().getLine());
+					newErro.setColuna(ctx.getStop().getCharPositionInLine());
 					newErro.setMensagem("Variável '" + ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR() +
 							"' já foi declarada.");
 					HanglingErrors.addErro(newErro);
@@ -43,7 +45,9 @@ public class Listener extends GraceBaseListener {
 				else {
 					Errors newErro = new Errors();
 					newErro.setTipo("Erro");
-					newErro.setMensagem("Variável '" + ctx.listaSpecVar().specVar(i).specVarSimples().IDENTIFICADOR() +
+					newErro.setLinha(ctx.getStop().getLine());
+					newErro.setColuna(ctx.getStop().getCharPositionInLine());
+					newErro.setMensagem("Variável '" + ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR() +
 							" já foi declarada.");
 					HanglingErrors.addErro(newErro);
 					System.out.println("Variável '" + ctx.listaSpecVar().specVar(i).specVarSimplesIni().IDENTIFICADOR() + " já foi declarada.");
@@ -63,6 +67,8 @@ public class Listener extends GraceBaseListener {
 				if(!tipo.equals(tipoPadrao)) {
 					Errors newErro = new Errors();
 					newErro.setTipo("Erro");
+					newErro.setLinha(ctx.getStop().getLine());
+					newErro.setColuna(ctx.getStop().getCharPositionInLine());
 					newErro.setMensagem("Conversão inválida de " + tipo + " para " + tipoPadrao);
 					HanglingErrors.addErro(newErro);
 					System.out.println("Conversão inválida de " + tipo + " para " + tipoPadrao);
@@ -74,6 +80,8 @@ public class Listener extends GraceBaseListener {
 			if(!(memoria.get(ctx.getChild(0).getText()).getTipo().equals(verificaTipo.get(0).toString()))) {
 				Errors newErro = new Errors();
 				newErro.setTipo("Erro");
+				newErro.setLinha(ctx.getStop().getLine());
+				newErro.setColuna(ctx.getStop().getCharPositionInLine());
 				newErro.setMensagem("Atribuição inválida de " + memoria.get(ctx.getChild(0).getText()).getTipo() + " para " + verificaTipo.get(0));
 				HanglingErrors.addErro(newErro);
 				
@@ -85,11 +93,12 @@ public class Listener extends GraceBaseListener {
 	
 	@Override 
 	public void exitValor(GraceParser.ValorContext ctx) { 
-
 		if(!(ctx.IDENTIFICADOR() == null)) {
 			if(!memoria.containsKey(ctx.IDENTIFICADOR().getText())) {
 				Errors newErro = new Errors();
 				newErro.setTipo("Erro");
+				newErro.setLinha(ctx.getStop().getLine());
+				newErro.setColuna(ctx.getStop().getCharPositionInLine());
 				newErro.setMensagem("Variável '" + ctx.IDENTIFICADOR() + "' não declarada.");
 				HanglingErrors.addErro(newErro);
 				System.out.println("Variável '" + ctx.IDENTIFICADOR() + "' não declarada.");
@@ -105,6 +114,8 @@ public class Listener extends GraceBaseListener {
 			if(!memoria.containsKey(ctx.IDENTIFICADOR().getText())) {
 				Errors newErro = new Errors();
 				newErro.setTipo("Erro");
+				newErro.setLinha(ctx.getStop().getLine());
+				newErro.setColuna(ctx.getStop().getCharPositionInLine());
 				newErro.setMensagem("Variável '" + ctx.IDENTIFICADOR() + "' não declarada.");
 				HanglingErrors.addErro(newErro);
 				System.out.println("Variável '" + ctx.IDENTIFICADOR() + "' não declarada.");
@@ -147,11 +158,14 @@ public class Listener extends GraceBaseListener {
 				if(memoria.containsKey(ctx.valorRelacional().getText())) {
 					Errors newErro = new Errors();
 					newErro.setTipo("Erro");
+					newErro.setLinha(ctx.getStop().getLine());
+					newErro.setColuna(ctx.getStop().getCharPositionInLine());
 					newErro.setMensagem("Variável '" + ctx.valorRelacional().IDENTIFICADOR() + "' não declarada.");
 				}	
 			}
 		}
 	}
+	
 
 	@Override 
 	public void exitGrace(GraceParser.GraceContext ctx) {
