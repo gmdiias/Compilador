@@ -5,6 +5,7 @@ public class Listener extends GraceBaseListener {
 	
 	Simbolo tabelaSimbolos = new Simbolo();
 	List<String> verificaTipo = new ArrayList<>();	
+	List<Bana> parametrosAtivos = new ArrayList<>();
 	
 	@Override 
 	public void enterDecVar(GraceParser.DecVarContext ctx) {
@@ -178,6 +179,17 @@ public class Listener extends GraceBaseListener {
 	
 	@Override public void enterBloco(GraceParser.BlocoContext ctx) { 
 		tabelaSimbolos.addEscopo();
+		
+		if(!parametrosAtivos.isEmpty()) {
+			for(Bana dado : parametrosAtivos) {
+				EstruturaMemoria nova = new EstruturaMemoria();
+				nova.setCadeia(dado.getNome());
+				nova.setTipo(dado.getTipo());
+				nova.setCategoria("var");
+				tabelaSimbolos.addSimbolo(dado.getNome(), nova);
+			}
+			parametrosAtivos.clear();
+		}
 	}
 
 	@Override public void exitBloco(GraceParser.BlocoContext ctx) { 
@@ -185,11 +197,36 @@ public class Listener extends GraceBaseListener {
 	}
 	
 	@Override public void enterDecFunc(GraceParser.DecFuncContext ctx) {
-		
+		System.out.println(ctx);
 	}
 	
 	@Override public void enterDecProc(GraceParser.DecProcContext ctx) { 
+
+		if(tabelaSimbolos.contains(ctx.getChild(1).getText())) {
+			Errors newErro = new Errors();
+			newErro.setTipo("Erro");
+			newErro.setLinha(ctx.getStart().getLine());
+			newErro.setColuna(ctx.getStart().getCharPositionInLine() + ctx.getChild(0).getText().length());
+			newErro.setMensagem("Procedimento '" + ctx.getChild(1).getText() +
+					" já foi declarada.");
+			HanglingErrors.addErro(newErro);
+			System.out.println("Procedimento '" + ctx.getChild(1).getText() + " já foi declarada.");
+		}
 		
+		EstruturaMemoria var = new EstruturaMemoria();
+		var.setCadeia(ctx.getChild(1).getText());
+		List<Bana> bana = new ArrayList<>();
+		for(GraceParser.SpecParamsContext dado : ctx.listaParametros().specParams()) {
+			Bana t = new Bana();
+			t.setNome(dado.param(0).getText());
+			t.setTipo(dado.tiposPrimitivos().getText());
+			bana.add(t);
+			parametrosAtivos.add(t);
+		}
+		var.setParametros(bana);
+		var.setCategoria("proc");
+		var.setTipo("void");
+		tabelaSimbolos.addSimbolo(ctx.getChild(1).getText(), var);
 	}
 	
 }
