@@ -199,7 +199,7 @@ cmdElse:
 cmdWhile: 
 	IDWHILE
 	PARENTEESQUERDO
-	decExpressao
+	(decExpressaoRelacional | decExpressaoIgualdade | decExpressaoLogica)+
 	PARENTEDIREITO
 	comando
 ;
@@ -210,7 +210,7 @@ cmdFor:
 	PARENTEESQUERDO
 	atribIni
 	PONTOVIRGULA
-	decExpressao
+	(decExpressaoRelacional | decExpressaoIgualdade | decExpressaoLogica)+
 	PONTOVIRGULA
 	atribPasso
 	PARENTEDIREITO

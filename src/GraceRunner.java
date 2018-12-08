@@ -40,7 +40,7 @@ public class GraceRunner {
 		parser.removeErrorListeners();
 		parser.addErrorListener(ErrorListener.INSTANCE);
 		
-		ParseTree tree = parser.grace();
+		ParseTree tree = parser.programa();
 
 		Listener listener = new Listener();
 
