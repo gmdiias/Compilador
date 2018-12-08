@@ -11,6 +11,12 @@ grammar Grace;
 grace: decVar+ cmdIf+ grace*;
 
 // --------- TODO DECLARACAO DE VARIAVEL ------------ //
+
+programa: dec
+		  (dec)*;
+		  
+dec: decVar | decSub;
+		  
 decVar :
     VAR
     listaSpecVar
@@ -26,7 +32,9 @@ listaSpecVar :
 	   
 specVar:
     specVarSimples|
-    specVarSimplesIni
+    specVarSimplesIni |
+    specVarArranjo |
+    specVarArranjoIni
     ;
 
 specVarSimples //returns [String iden = $IDENTIFICADOR.text]:
@@ -42,8 +50,30 @@ specVarSimplesIni:
 specVarArranjo:
 	IDENTIFICADOR
 	COLCHETEESQUERDO
-	NUMERO;	
+	NUMERO
+	COLCHETEDIREITO;	
 	
+specVarArranjoIni: 
+	IDENTIFICADOR
+	COLCHETEESQUERDO
+	NUMERO
+	COLCHETEDIREITO
+	RECEBE
+	CHAVEESQUERDO
+	NUMERO(VIRGULA NUMERO)*
+	CHAVEDIREITO
+	;
+	
+// --- USO DE VARIAVEL ---
+variavel: 
+	IDENTIFICADOR |
+	IDENTIFICADOR
+	COLCHETEESQUERDO
+	decExpressao
+	CHAVEDIREITO
+	;
+
+
 // ----- DECLARACAO DE SUBPROGRAMAS -----
 
 decSub:
@@ -72,12 +102,20 @@ decFunc:
 	tiposPrimitivos
 	bloco
 	;
+	
+cmdChamadaProc:
+	IDENTIFICADOR
+	PARENTEESQUERDO
+	decExpressao
+	(VIRGULA decExpressao)*
+	PONTOVIRGULA
+;
 
 // DECLARACAO DE BLOCO
 bloco:
 	CHAVEESQUERDO
-	( decSub | 
-	  decVar )
+	(dec)*
+	(comando)*
 	CHAVEDIREITO
 	;
 
@@ -188,7 +226,7 @@ atribPasso:
 	operador
 	valor
 	;
-	
+
 // --- Interrupção do Laço
 cmdStop:
 	IDSTOP
@@ -196,7 +234,10 @@ cmdStop:
 ;
 
 // -- Salto de Interação
-//TODO
+cmdSkip:
+	IDSKIP
+	PONTOVIRGULA
+;
 	
 // ----- DECLARACAO DE EXPRESSAO -----
 decExpressao: 
@@ -342,7 +383,7 @@ TRUE : 'true';
 FALSE : 'false';
 TIPOBOOL : 'bool';
 IDSTOP: 'stop';
-
+IDSKIP: 'skip';
 IDIF: 'if';
 IDELSE: 'else';
 IDWHILE: 'while';
