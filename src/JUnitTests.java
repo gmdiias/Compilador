@@ -55,24 +55,24 @@ class JUnitTests {
 	
 	@Test
 	void ListMemoriaTest() {
-		ListMemoria memoria = new ListMemoria();
+		Simbolo memoria = new Simbolo();
 		
 		EstruturaMemoria teste = new EstruturaMemoria();
 		teste.setTipo("string");
 		teste.setValor("teste");
-		teste.setVariavel("a");
-		memoria.addEstrutura("a", teste);
-		memoria.addContexto();
-		memoria.addEstrutura("b", teste);
-		memoria.addContexto();
-		memoria.addEstrutura("c", teste);
+		teste.setCadeia("a");
+		memoria.addSimbolo("a", teste);
+		memoria.addEscopo();
+		memoria.addSimbolo("b", teste);
+		memoria.addEscopo();
+		memoria.addSimbolo("c", teste);
 		
 		assertTrue(memoria.contains("a"));
 		assertTrue(memoria.contains("b"));
 		assertTrue(memoria.contains("c"));
 		
-		memoria.removeContexto();
-		memoria.removeContexto();
+		memoria.removeEscopo();
+		memoria.removeEscopo();
 		
 		assertTrue(memoria.contains("a"));
 		assertFalse(memoria.contains("b"));

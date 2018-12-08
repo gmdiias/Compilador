@@ -21,6 +21,7 @@ public class Main extends Application {
                 CornerRadii.EMPTY, Insets.EMPTY)));
         
         stage.setScene(scene);
+        stage.setTitle("Compilador GRACE");
         stage.show();
     }
 
