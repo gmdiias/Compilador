@@ -121,7 +121,7 @@ bloco:
 
 // DECLARACAO DE LISTA DE PARAMETROS
 listaParametros:
-	specParams
+	specParams?
 	(PONTOVIRGULA specParams)*
 	;
 	
@@ -218,17 +218,13 @@ cmdWhile:
 cmdFor: 
 	IDFOR
 	PARENTEESQUERDO
-	atribIni
+	atrib
 	PONTOVIRGULA
 	(decExpressaoRelacional | decExpressaoIgualdade | decExpressaoLogica)+
 	PONTOVIRGULA
 	atribPasso
 	PARENTEDIREITO
 	comando
-;
-
-atribIni: 
-	specVarSimplesIni
 ;
 
 atribPasso:
@@ -319,8 +315,7 @@ operadorLogica:
 	|ELOGICO ;	
 // ----- DECLARACAO DE COMENTARIOS -----
 e_Comentario : 
-	COMENTARIO
-	*;
+	COMENTARIO ~WS;
 	
 // ----- DECLARACAO DE TIPOS -----
       
@@ -412,7 +407,6 @@ END : 'end';
 
 IDENTIFICADOR : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMERO : [0-9]*;
-
 STRING : STRINGPARTICAO '"';
 STRINGPARTICAO : '"' (~["\\\r\n] | '\\' (. | EOF))*;
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines

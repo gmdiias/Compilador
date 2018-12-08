@@ -229,4 +229,16 @@ public class Listener extends GraceBaseListener {
 		tabelaSimbolos.addSimbolo(ctx.getChild(1).getText(), var);
 	}
 	
+	@Override public void enterCmdAtrib(GraceParser.CmdAtribContext ctx) {
+		if(!tabelaSimbolos.contains(ctx.atrib().IDENTIFICADOR().getText())) {
+			Errors newErro = new Errors();
+			newErro.setTipo("Erro");
+			newErro.setLinha(ctx.getStop().getLine());
+			newErro.setColuna(ctx.getStop().getCharPositionInLine());
+			newErro.setMensagem("Variável '" + ctx.atrib().IDENTIFICADOR() + "' não declarada.");
+			HanglingErrors.addErro(newErro);
+			System.out.println("Variável '" + ctx.atrib().IDENTIFICADOR() + "' não declarada.");
+		}
+	}
+	
 }
