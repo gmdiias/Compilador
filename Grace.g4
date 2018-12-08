@@ -70,7 +70,7 @@ variavel:
 	IDENTIFICADOR
 	COLCHETEESQUERDO
 	decExpressao
-	CHAVEDIREITO
+	COLCHETEDIREITO
 	;
 
 
@@ -149,9 +149,13 @@ comando:
 	bloco;
 	
 cmdSimples:
-	cmdAtrib |
-	cmdRead |
-	cmdWrite
+	cmdAtrib 
+	|cmdRead
+	|cmdWrite 
+	|cmdIf
+	|cmdFor
+	|cmdWhile
+	
 	;
 
 cmdAtrib:
@@ -161,7 +165,8 @@ cmdAtrib:
 	
 atrib:
 	IDENTIFICADOR
-	( 	ATRIBUICAOSOMA |
+	( 	RECEBE|
+		ATRIBUICAOSOMA |
 		ATRIBUICAOSUBTRACAO |
 		ATRIBUICAOMULTIPLICACAO |
 		ATRIBUICAODIVISAO |
@@ -180,12 +185,17 @@ cmdWrite:
 	// TODO EXPRESSAO
 	(VIRGULA )* // EXPRESSAO
 	;
+
+cadeiaExpressaoLogica:
+	(decExpressaoIgualdade|decExpressaoLogica|decExpressaoRelacional)+
+	(operadorLogica cadeiaExpressaoLogica)*;
 	
+		
 // ----- CONDICIONAL IF -----
 cmdIf: 
 	IDIF
 	PARENTEESQUERDO
-	(decExpressaoRelacional)
+	(cadeiaExpressaoLogica)
 	PARENTEDIREITO
 	comando
 	cmdElse
@@ -199,11 +209,11 @@ cmdElse:
 cmdWhile: 
 	IDWHILE
 	PARENTEESQUERDO
-	(decExpressaoRelacional | decExpressaoIgualdade | decExpressaoLogica)+
+	cadeiaExpressaoLogica
 	PARENTEDIREITO
 	comando
 ;
-
+	
 // ----- LA�O FOR -----
 cmdFor: 
 	IDFOR
@@ -252,10 +262,16 @@ valor: IDENTIFICADOR
      ;
 
 operador:
-	SOMA
+	 SOMA
 	|SUBTRACAO
 	|MULTIPLICACAO
 	|DIVISAO
+	|RECEBE
+	|ATRIBUICAOSOMA 
+	|ATRIBUICAOSUBTRACAO 
+	|ATRIBUICAOMULTIPLICACAO 
+	|ATRIBUICAODIVISAO 
+	|ATRIBUICAORESTODIVISAO
 	;
 
 // ----- DECLARACAO DE EXPRESSAO RELACIONAL-----
@@ -266,15 +282,13 @@ decExpressaoRelacional:
 valorRelacional:
 	  IDENTIFICADOR
 	  |NUMERO
-	  |PARENTEESQUERDO decExpressao PARENTEDIREITO;
+	  |decExpressao ;
 	  
 operadorRelacional:
 	MAIOR
 	|MAIORIGUAL
 	|MENOR
-	|MENORIGUAL
-	|COMPARA
-	|DIFERENTE;
+	|MENORIGUAL;
 
 // ----- DECLARACAO DE EXPRESSAO IGUALDADE-----
 decExpressaoIgualdade:
