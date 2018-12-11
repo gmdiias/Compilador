@@ -1,0 +1,33 @@
+ERRO AO FALTAR FECHAMENTOS DE CADEIA
+var a : int;
+def main(){
+	if(a > 500 {
+	    var teste = 1+2: int	
+	} else {
+		
+		break;
+	}
+}
+
+ERRO DOIS NUMERO SEGUIDOS SEM OPERADOR ENTRE ELES
+def main(){
+	var resultado = 1 * 2 (5 * 9): int;
+}
+
+ERRO PALAVRA-CHAVE SENDO USADA NUMA POSIÇÃO INESPERADA
+
+def main(){
+	if(6 > 500) {
+	    var teste = 1+2: int;	
+	} else {
+		
+		break;
+	}
+}
+
+def main(){
+        whileS (5 < 10){
+		//loopinfitino
+	}
+
+}

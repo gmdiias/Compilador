@@ -1,0 +1,19 @@
+ERRO COM NOMES QUE NÃO EXITE
+
+def  main(){
+
+	var x:inteiro;
+	var y:sting;
+	var z:bool;
+
+	var 98_varnpodecomecarcomnum:int;
+}
+
+def main(){
+	var a: bool;
+       if(a){
+	}
+	elseif{
+	}
+
+}
