@@ -7,7 +7,7 @@ public class EstruturaMemoria {
 	private String tipo;
 	private String categoria;
 	private String endereco;
-	private List<Bana> parametros;
+	private List<Argumentos> parametros;
 	private String valor;
 	
 	public String getCadeia() {
@@ -40,10 +40,10 @@ public class EstruturaMemoria {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}	
-	public List<Bana> getParametros() {
+	public List<Argumentos> getParametros() {
 		return parametros;
 	}
-	public void setParametros(List<Bana> parametros) {
+	public void setParametros(List<Argumentos> parametros) {
 		this.parametros = parametros;
 	}
 	

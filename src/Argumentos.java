@@ -1,13 +1,13 @@
 
-public class Bana {
+public class Argumentos {
 	private String nome;
 	private String tipo;
 	
-	public Bana() {
+	public Argumentos() {
 		
 	}
 	
-	public Bana(String nome, String tipo) {
+	public Argumentos(String nome, String tipo) {
 		super();
 		this.nome = nome;
 		this.tipo = tipo;
