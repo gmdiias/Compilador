@@ -15,7 +15,7 @@ grace: decVar+ cmdIf+ decVar?;
 programa: dec
 		  (dec)*;
 		  
-dec: decVar | decSub;
+dec: decVar | decSub | cmdAtrib | e_Comentario;
 		  
 decVar :
     VAR
@@ -176,14 +176,13 @@ atrib:
 
 cmdRead:
 	READ
-	// TODO VARIAVEL
+	variavel
 	PONTOVIRGULA
 	;
 
 cmdWrite:
 	WRITE
-	// TODO EXPRESSAO
-	(VIRGULA )* // EXPRESSAO
+	variavel
 	;
 
 cadeiaExpressaoLogica:

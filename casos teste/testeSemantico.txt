@@ -1,0 +1,23 @@
+var salarioTotal = 0 : int;
+
+// SalarioTeste
+
+def main(){
+	var i = 0: int;
+
+	while (i != 100) {
+		var salario = 0 : int;
+		read salario;
+
+		if(salario > 500) {
+			var novoSalario = salario * 2 : int;
+			salarioTotal += novoSalario;
+		} else {
+			var j : int;
+			for(j = 0; j < salario; j += 1){
+				salario = salarioTotal / 2;
+			}
+		}
+		i += 1;
+	}
+}
