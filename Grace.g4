@@ -15,7 +15,7 @@ grace: decVar+ cmdIf+ decVar?;
 programa: dec
 		  (dec)*;
 		  
-dec: decVar | decSub | cmdAtrib | e_Comentario;
+dec: decVar | decSub | cmdAtrib;
 		  
 decVar :
     VAR
@@ -313,8 +313,8 @@ operadorLogica:
 	OULOGICO
 	|ELOGICO ;	
 // ----- DECLARACAO DE COMENTARIOS -----
-e_Comentario : 
-	COMENTARIO ~WS;
+LineComment : 
+	COMENTARIO ~[\r\n]* -> skip;
 	
 // ----- DECLARACAO DE TIPOS -----
       

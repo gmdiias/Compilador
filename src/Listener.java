@@ -5,7 +5,7 @@ public class Listener extends GraceBaseListener {
 	
 	Simbolo tabelaSimbolos = new Simbolo();
 	List<String> verificaTipo = new ArrayList<>();	
-	List<Bana> parametrosAtivos = new ArrayList<>();
+	List<Argumentos> parametrosAtivos = new ArrayList<>();
 	
 	@Override 
 	public void enterDecVar(GraceParser.DecVarContext ctx) {
@@ -181,7 +181,7 @@ public class Listener extends GraceBaseListener {
 		tabelaSimbolos.addEscopo();
 		
 		if(!parametrosAtivos.isEmpty()) {
-			for(Bana dado : parametrosAtivos) {
+			for(Argumentos dado : parametrosAtivos) {
 				EstruturaMemoria nova = new EstruturaMemoria();
 				nova.setCadeia(dado.getNome());
 				nova.setTipo(dado.getTipo());
@@ -215,15 +215,15 @@ public class Listener extends GraceBaseListener {
 		
 		EstruturaMemoria var = new EstruturaMemoria();
 		var.setCadeia(ctx.getChild(1).getText());
-		List<Bana> bana = new ArrayList<>();
+		List<Argumentos> listArgumentos = new ArrayList<>();
 		for(GraceParser.SpecParamsContext dado : ctx.listaParametros().specParams()) {
-			Bana t = new Bana();
+			Argumentos t = new Argumentos();
 			t.setNome(dado.param(0).getText());
 			t.setTipo(dado.tiposPrimitivos().getText());
-			bana.add(t);
+			listArgumentos.add(t);
 			parametrosAtivos.add(t);
 		}
-		var.setParametros(bana);
+		var.setParametros(listArgumentos);
 		var.setCategoria("proc");
 		var.setTipo("void");
 		tabelaSimbolos.addSimbolo(ctx.getChild(1).getText(), var);
