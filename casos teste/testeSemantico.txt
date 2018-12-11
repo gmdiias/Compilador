@@ -1,6 +1,6 @@
 var salarioTotal = 0 : int;
 
-// SalarioTeste
+// Teste Salario
 
 def main(){
 	var i = 0: int;

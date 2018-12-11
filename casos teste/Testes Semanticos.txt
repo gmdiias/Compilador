@@ -1,22 +1,30 @@
-Variável não declarada:
+Testes para variável não declarada:
 
-Error -> var a = b : int;
-OK -> var b: int;
-      var a = b : int;
+Error ->
+ var a = b : int;
 
-Error-> var x : int;
-        var soma : int;
-        soma = x+y ;
-OK -> var x , y : int;
-      var soma : int;
-      soma = x+y ;
+OK ->
+	var b: int;
+    var a = b : int;
 
-Verificação de Tipo:
+Error->
+    var x : int;
+    var soma : int;
+    soma = x+y ;
 
-Erro -> var x: int;
+OK ->
+	var x , y : int;
+    var soma : int;
+    soma = x+y ;
+
+Testes para Verificação de Tipo:
+
+Erro ->
+	var x: int;
 	var y: string;
 	var soma =  (x+1) * y  : int;
 
-OK ->   var x: int;
+OK ->
+	var x: int;
 	var y: int;
 	var soma =  (x+1) * y  : int;
